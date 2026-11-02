@@ -1,9 +1,10 @@
 # Maps, address search and road distance (proposal)
 
-**Status: proposed.** Nothing here is approved yet. Issue
-[#334](https://github.com/mmiri-oma/mmirioma/issues/334) is the decision; no
-map work (#340, #345, #346) starts until the approval block in section 10 is
-filled in by a reviewer who is not the author.
+**Status: approved by the design reviewer on 2 November 2026, with
+conditions** (section 10). Issue
+[#334](https://github.com/mmiri-oma/mmirioma/issues/334) stays open until the
+budget holder's comment is linked in section 10. Map work (#340, #345, #346)
+follows the approved options and the conditions.
 
 **Author:** @nnamdi-security + agent · **Written:** 2 November 2026 · **Prices
 and terms checked:** 2 November 2026 (section 11 lists each source).
@@ -308,20 +309,31 @@ comments on each issue, with the reviewer's OK):
 
 ## 10. Approval
 
-Both blocks below are empty on purpose. A reviewer who is not the author
-fills them in.
-
 ```text
-Design reviewer (not the author):   <GitHub username>
-Date:                               <date>
-Approved options:                   Map and tiles: <M1|M2|M3>  Address search: <G1|G2|G4>  OSRM: <R1|R2|R3>
-Conditions or changes:              <text>
+Design reviewer (not the author):   cloudcrackamara
+Date:                               2026-11-02
+Approved options:                   Map and tiles: M1  Address search: G1  OSRM: R1
+Conditions or changes:              1. OSRM (R1) is deployed only if, measured on the
+                                       real VPS before go-live, OSRM uses under 1.5 GiB
+                                       and the API is unaffected. If it fails, OSRM is not
+                                       deployed and orders use delivery-zone rates
+                                       (section 5). Route quality is also checked against
+                                       known Enugu routes.
+                                    2. Routing files are built off the VPS, with a hard
+                                       container memory limit (section 5).
+                                    3. A person reads OpenFreeMap's privacy policy before
+                                       go-live. If its logging is unacceptable, switch the
+                                       tile address to M2, which needs a new budget decision
+                                       (section 3).
+                                    4. No paid plan is approved (section 9). A paid fallback
+                                       needs a new budget decision.
 
-Budget holder:                      <name>
-Monthly ceiling agreed:             <amount>  (comment on #334: <link>)
+Budget holder:                      nnamdi-security
+Monthly ceiling agreed:             $0  (comment on #334: pending, not yet posted)
 ```
 
-Status changes to `approved` only when the reviewer block is filled in.
+The reviewer block is filled in. The budget holder's comment on #334 is still
+to be posted and linked above; until then #334 is not complete.
 
 ## 11. Sources and open questions
 
