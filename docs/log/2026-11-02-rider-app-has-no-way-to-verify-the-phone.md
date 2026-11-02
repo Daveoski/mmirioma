@@ -17,6 +17,6 @@
   hand for a partner they have confirmed in person (`UPDATE users SET
   phone_verified_at = now() WHERE phone = '<phone>' AND role = 'driver';`).
   This leaves no audit row.
-- **Status:** open
+- **Status:** resolved (screen built in `feat/partner-phone-verification`; the SQL workaround is no longer needed once that is deployed)
 - **Refs:** `backend/app/modules/partners/directory.py` (approval check),
   `frontend/src/features/customer/routes.tsx` (only `/verify-phone`).

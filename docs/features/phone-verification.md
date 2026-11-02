@@ -282,5 +282,5 @@ API mocked (above), not in a browser against this server.
 - Staff phones are not verified by SMS; they are created by the technical
   lead. Riders and drivers who sign up themselves may use the same endpoints
   (decision 9 in `docs/api/partners.md`), and an admin can approve them only
-  once verified, but the partner app has no screen for it yet (design:
-  `docs/design/partner-phone-verification.md`, approved, G2).
+  once verified. The partner app has the screen at `/partner/verify-phone`
+  (design: `docs/design/partner-phone-verification.md`, approved, G2).
