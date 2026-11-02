@@ -358,6 +358,26 @@ today; **required**, 422 `validation_error` when missing: decision 7) and
 | `by_driver` | Deliveries in the range per driver, most first. The driver is the one on the order's `completed` assignment (decision 9). No pay: partner pay is out of the MVP, so the design's "Earned" column is dropped |
 | `by_source` | Pickup records (FR-034) in the range per source, most first. The design's "loads by station". A pickup at another source has no source row and is not counted (decision 9) |
 
+### Amendment proposed in #333: chosen date range and cancelled orders
+
+**Status: proposed.** Not agreed until a reviewer who is not the author
+signs off (G3). Additive: a request that sends only `range` behaves exactly
+as before.
+
+| Query | Rule |
+| --- | --- |
+| `from`, `to` | Optional pair of Lagos calendar dates (`YYYY-MM-DD`), both inclusive. Send **either** `range` **or** both `from` and `to`. Both missing, only one of them, or `range` together with them: 422 `validation_error`. `from` after `to`, `to` in the future, or more than 90 days: 422 `validation_error` (`details` names the field) |
+| `include_cancelled` | Optional boolean, default `false`. When `false`, `by_zone` and `by_delivery_type` leave out cancelled orders. `orders.total` and `orders.by_status` are unchanged and still show the cancelled count, so the screen can explain the difference |
+
+Response: `range` is `"custom"` when `from` and `to` were sent; `from` and
+`to` echo the dates used. No other field changes. `by_zone[].delivered` is
+unaffected (a cancelled order is never delivered, decision 8). The response
+still holds no customer name, phone or address (FR-053), and no money is
+added: the breakdowns are counts.
+
+Access, `simulated` and error envelope are as for the rest of this endpoint.
+Customers and drivers get 403 `forbidden`.
+
 Not returned, as on the dashboard: refunds, variable costs, contribution
 (F6, F7). FR-042 asks that contribution is never labelled net profit; it is
 not shown at all in the pilot.
@@ -688,6 +708,7 @@ on the current backend, including the delivery type and zone breakdowns
 
 | Date | Change | Agreed by |
 | --- | --- | --- |
+| 2026-11-02 | Proposed (#333): `from`/`to` custom range and `include_cancelled` on `GET /admin/reports` ([amendment](#amendment-proposed-in-333-chosen-date-range-and-cancelled-orders)) | Not yet |
 | 2026-11-01 | Added `AuditLogRead.target_label` (additive, resolved when read, #296) | @nnamdi-security (technical lead, G3) |
 | 2026-10-27 | "Data needed": the note is removed by replacing it with the message's text, so the response keeps its shape (#117) | @nnamdi-security (privacy contact) |
 | 2026-10-27 | Clarified in the build (#102): decisions 7-10 (`range` required, `by_zone[].delivered`, per-driver and per-source rules, indexes); `assignment_expired` not created while offers never expire | @nnamdi-security (technical lead) |
