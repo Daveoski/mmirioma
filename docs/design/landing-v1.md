@@ -162,15 +162,29 @@ water appears at once, without animation. The size stays in ink and the unit
 text turns ink over the water, for contrast. The fill is a picture of the size,
 not a quantity claim or a recommendation.
 
-Not yet approved by a reviewer: this note records what was built; a reviewer who
-is not the author checks it against the owner's request.
+Approved on 2026-11-02 by @nnamdi-security, who is not the author: the note
+records what was built and matches the owner's request in #330.
 
 ## Hero buttons and logo links (2026-11-02, #337)
 
 Requested by the owner in #337, after the design was approved; recorded here
-because it changes the hero of an approved screen. Status: **proposed**. It
-becomes approved when one reviewer who is not the author says so here. The code
-for it is a separate pull request that waits for that.
+because it changes the hero of an approved screen. Status: **approved** (G2) on
+2026-11-02 by @nnamdi-security, who is not the author, with the decisions below.
+The code for it is a separate pull request.
+
+**Review decisions (recommendation and approval, 2026-11-02):**
+
+1. **Hero labels stay "Order water" and "Become a partner".** The owner chose
+   these in #337, after the 2026-10-21 labels, so the later request wins for
+   the hero. The header and closing section keep their labels for now; the owner
+   can align them in a later change.
+2. **The partner app's logo goes to `/partner/`, not `/`.** The installed
+   partner app has the scope `/partner/` (`partner.webmanifest`), so `/` would
+   leave it. This is a deliberate exception to #337's "every logo links to `/`";
+   read that Done-when item as "every logo links to its app's home".
+3. **No install link is added to the header.** It has none today (`NAV_LINKS`),
+   and #337's wording "and the header" does not match the code. Install stays in
+   "Put MmiriOma on your phone".
 
 ### Hero
 
