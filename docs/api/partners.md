@@ -182,6 +182,7 @@ session.
 | Field | Rule |
 | --- | --- |
 | `name`, `phone`, `password` | As `POST /auth/register` ([auth.md](auth.md#identifier-and-password-rules)) |
+| `accepted_terms` | **Proposed, not in force until agreed (#332).** Required and must be `true`, as `POST /auth/register`; the time and terms version are stored ([auth.md](auth.md#recorded-acceptance)). The example above gains this field when it is built |
 | `delivery_type` | `keke` or `tanker` |
 | `plate` | Trimmed and upper-cased, then 4 to 15 characters of letters, digits, spaces and hyphens. No check of the Nigerian plate format: the admin checks the real plate at approval ([decision 3](#open-questions)) |
 | `declared_capacity_gallons` | Tanker: required, a whole number from 500 to 20,000 (`tankCapacity.ts`: 500 is the smallest tanker order; 20,000 only catches typos). Keke: must be `null` or absent |
