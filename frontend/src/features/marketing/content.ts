@@ -206,6 +206,25 @@ export const OBJECTIONS: { q: string; a: string }[] = [
 
 export type FaqFilter = FaqCategory | 'All'
 
+/**
+ * How full a size tile's water layer gets, from 0 to 1 (#330): the tile's size
+ * divided by the largest size in its group, so 12 is the lowest of 12, 24, 30
+ * and 60, and 60 is full. A tile with no number, such as "Custom", fills
+ * completely. The figure only sets how high the water rises; it is not a
+ * price, a quantity claim or a recommendation (FR-022).
+ *
+ * @param label - The tile's text, e.g. "12", "1,000" or "Custom".
+ * @param group - Every label in the tile's group, in any order.
+ * @returns A number above 0 and at most 1.
+ */
+export function tileFill(label: string, group: readonly string[]): number {
+  const size = (text: string) => Number(text.replace(/,/g, ''))
+  const own = size(label)
+  const largest = Math.max(...group.map(size).filter((n) => Number.isFinite(n) && n > 0))
+  if (!Number.isFinite(own) || own <= 0 || !Number.isFinite(largest)) return 1
+  return Math.min(1, own / largest)
+}
+
 /** True when `search` appears in the question or answer (case-insensitive). Empty search matches all. */
 function matches(faq: Faq, search: string): boolean {
   const s = search.trim().toLowerCase()

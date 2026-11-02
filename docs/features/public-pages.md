@@ -15,6 +15,10 @@ the legal pages. Anyone can open them, signed in or not.
   prices) → for drivers (approval steps) → install the apps → service areas
   and FAQs → "Before you order" (worries, closing buttons) → footer. Header links jump to sections; below 960 px they move into a menu.
   The header stays stuck to the top while scrolling.
+- The size tiles in "Pick the size that fits" (Keke 12, 24, 30 and 60 gallons;
+  tanker 500, 750, 1,000 and Custom) fill with water on hover, on keyboard focus
+  and on a tap (#330). The fill is only a picture of the size, not a price, a
+  quantity claim or a recommendation. See "Size tiles" below.
 - "Order Water" → `/order` (sign-in first when signed out).
 - "Become a Rider or Driver" → `/partner/signup`.
 - Every public page has a floating "Chat on WhatsApp" button (bottom right;
@@ -39,14 +43,14 @@ the legal pages. Anyone can open them, signed in or not.
 | `frontend/src/features/marketing/routes.tsx` | The four public routes |
 | `Landing.tsx`, `FaqPage.tsx`, `LegalPages.tsx` | The pages |
 | `MarketingParts.tsx` | Header with mobile menu, footer, install button, picture and heading helpers |
-| `content.ts` | Copy shared by pages and tests: nav, areas, FAQs, worries (`OBJECTIONS`), `ORDER_CTA`, `filterFaqs` |
+| `content.ts` | Copy shared by pages and tests: nav, areas, FAQs, worries (`OBJECTIONS`), `ORDER_CTA`, `filterFaqs`, `tileFill` (how high a size tile's water rises) |
 | `SiteExtras.tsx` | Floating WhatsApp and Back to top buttons |
 | `queries.ts`, `publicApi.ts` | The support contact: `useSupportContact`, `useWhatsappNumber` (mock or `GET /public/contact`) |
 | `frontend/src/lib/api/publicSite.ts` | Typed `getPublicContact` client |
 | `frontend/src/lib/whatsapp.ts` | `wa.me` links and the fallback support number |
 | `frontend/src/mocks/publicMock.ts` | Mock of docs/api/public-site.md |
 | `icons.tsx` | The design's icons, path for path |
-| `marketing.css` | Breakpoint rules for the hero and drivers backgrounds and grids |
+| `marketing.css` | Breakpoint rules for the hero and drivers backgrounds and grids, and the size tiles' water (`.mk-tile`) |
 | `useMarketingPage.ts` | Fonts, title and description, scrolling to `#section` |
 | `frontend/public/marketing/` | Images (WebP plus PNG/JPG) |
 | `frontend/src/styles/theme.css` | `mk-*` colours and the Outfit / DM Sans font tokens |
@@ -85,6 +89,28 @@ on (`lib/whatsapp.ts`), so help is always reachable.
   every WhatsApp button is hidden and the 404 page, FAQ, landing page and
   Contact us offer the phone instead.
 
+### Size tiles
+
+How the water in a tile behaves (#330, `Landing.tsx` `SizeTile`, `marketing.css` `.mk-tile`):
+
+- **Height.** A tile's size divided by the largest size in its group: Keke 20%,
+  40%, 50% and 100%; tanker 50%, 75% and 100%, with Custom full. The 60 and
+  1,000 tiles are therefore also full. Set by `tileFill` in `content.ts`.
+- **Motion.** The water is a full-height layer that rises with `transform:
+  scaleY()` from the bottom, so only `transform` animates (the rule in
+  `styles/motion.css`). The tile is not clipped; a separate wrapper clips the
+  water to the rounded corners.
+- **Triggers.** Hover (only on devices that have it, so a tap does not leave a
+  stuck hover), keyboard focus (`:focus-visible`), and a tap on a touch or pen
+  screen, which toggles the fill through `data-filled`; moving focus away ends
+  it. A mouse click needs no script. There are no timers.
+- **Reduced motion.** The water still appears on hover, focus or tap, but at
+  once, with no transition.
+- **Accessibility.** Each tile is a focusable `role="group"` named for its text
+  ("12 Gallons", "Custom Size").
+- **Contrast.** The muted unit text is 4.21:1 on the water, so it turns to ink
+  (11.3:1) when the water is up. The size is ink all the time.
+
 ## 7. Authentication and authorization
 
 Public. `/` never redirects signed-in people (it is the page we share); the
@@ -114,6 +140,10 @@ checks (FAQs and worries, including no Paystack, points or payouts), FAQ empty s
 with its order and apply links, section order (benefits before how it
 works; worries last, no newsletter), the WhatsApp button link, the 404 page
 and its driver-app variant, `/app` still redirecting.
+`src/features/marketing/sizeTiles.test.tsx`: `tileFill` for each group, each
+tile's accessible name and fill, the tap toggling the fill with no timers left
+running, and the stylesheet rules (transform only, hover only where a device has
+it, no transition under reduced motion, text contrast over the water).
 `src/features/marketing/termsPage.test.tsx`: none of the old Terms
 promises, the pilot rules, and the notice's contact.
 `src/features/marketing/supportContact.test.tsx`: WhatsApp hidden and the
@@ -124,6 +154,12 @@ and the mock contact. Manual: compare with
 `screens-png/` at 390, 768, 1024 and 1440 px.
 
 ## 10. Known limitations
+
+- At 360 px the tiles are 41 px wide, narrower than the "1,000" and "Custom"
+  labels, which spill past the tile edge. This was already so before the water
+  was added; the tile is no longer clipped, so nothing is cut off, but the
+  spill can overlap a neighbouring tile's water when both are filled.
+- Each tile is a keyboard stop, so the section adds eight tab stops.
 
 - The Terms are reviewed by the legal operator (@nnamdi-security) on #107's
   PR before launch; the 18+ age rule and the keke cans wording come from the
