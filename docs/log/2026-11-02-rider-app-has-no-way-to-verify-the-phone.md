@@ -12,7 +12,7 @@
   them. `docs/features/phone-verification.md` still said driver phones are not
   verified by SMS.
 - **Fix / workaround:** Design proposal in
-  `docs/design/partner-phone-verification.md` (draft, needs G2 approval).
+  `docs/design/partner-phone-verification.md` (approved, G2, 2026-11-02; the screens are not built yet).
   Until it is built, the technical lead can set `users.phone_verified_at` by
   hand for a partner they have confirmed in person (`UPDATE users SET
   phone_verified_at = now() WHERE phone = '<phone>' AND role = 'driver';`).

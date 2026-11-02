@@ -283,4 +283,4 @@ API mocked (above), not in a browser against this server.
   lead. Riders and drivers who sign up themselves may use the same endpoints
   (decision 9 in `docs/api/partners.md`), and an admin can approve them only
   once verified, but the partner app has no screen for it yet (design:
-  `docs/design/partner-phone-verification.md`, draft).
+  `docs/design/partner-phone-verification.md`, approved, G2).

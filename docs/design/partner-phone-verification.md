@@ -8,12 +8,14 @@ FR-003, FR-002, NFR-020, NFR-021, NFR-022 · Contract:
 [auth.md](../api/auth.md#phone-verification-fr-003-fr-004) (agreed, G3) and
 [partners.md](../api/partners.md) (decision 9, `phone_verified`,
 `partner_phone_not_verified`)
-Designer: @nnamdi-security + Claude Code · Reviewed by: pending (one reviewer who is not
-the author) · Status: draft
+Designer: @nnamdi-security + Claude Code · Reviewed by: @Cloudcrackamara
+(not the author), 2026-11-02 · Status: approved (G2)
 
-**Not approved (G2).** No frontend screen may be built from this document
-until a reviewer who is not the author sets `Status: approved` and names
-themselves and the date above.
+**Approved (G2)** by @Cloudcrackamara on 2026-11-02, reviewed against the
+agreed contracts ([auth.md](../api/auth.md#phone-verification-fr-003-fr-004),
+[partners.md](../api/partners.md) decision 9) and the approved customer design
+it reuses. This covers the two new wording lines. Build only after the issue in
+[Open questions](#open-questions) exists.
 
 ## Problem
 
