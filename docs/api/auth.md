@@ -22,9 +22,10 @@ from [partners.md](partners.md). See [Changes](#changes).
 ([authentication.md](../features/authentication.md)). See
 [Change password](#change-password-8).
 
-**Password rule and recorded acceptance (2026-11-02, #332): proposed, not yet
-agreed.** Needs one reviewer who is not the author; that reviewer's name and
-the date go here and in [Changes](#changes). Not built until then. See
+**Password rule and recorded acceptance (2026-11-02, #332): agreed** (G3) on
+2026-11-02 by @nnamdi-security (technical lead), who is not the author. Not in
+force until #332 is built, and then only with the rollout order in
+[Rollout](#rollout). See
 [Password rule and recorded acceptance](#password-rule-and-recorded-acceptance-332).
 
 ## Roles
@@ -142,7 +143,7 @@ provider's delivery report:
   `2348000000001`, `+2348000000001` (spaces and dashes ignored). Stored and
   returned as `+234` followed by 10 digits starting with 7, 8 or 9.
 - Password: 8–128 characters. No composition rules (NIST SP 800-63B). Stored
-  only as a salted scrypt hash. **Proposed change, not in force until agreed:**
+  only as a salted scrypt hash. **Agreed change (#332), in force when it is built:**
   a new password also needs an uppercase letter, a number and a symbol
   ([#332](#password-rule-and-recorded-acceptance-332)). Sign-in stays as it is.
 
@@ -266,8 +267,15 @@ Frontend note: the mock (`mockChangePassword`) answers 400
 
 ## Password rule and recorded acceptance (#332)
 
-**Status: proposed.** The team asked for composition rules. This replaces the
-"no composition rules" line above, once agreed. Length matters more than
+**Status: agreed** (G3) on 2026-11-02 by @nnamdi-security (technical lead).
+Recommendation recorded with the agreement: accept every decision listed in
+PR #349 as written (the character classes, one 422 entry per field, the
+date-constant `TERMS_VERSION` without re-acceptance, the same rule for
+`create-user`, clearing both columns on anonymize, not returning the fields,
+and null covering command-line and seeded accounts), because each follows the
+issue or is the narrowest choice where it is silent, and the rollout order
+removes the sign-up break. The team asked for composition rules. This replaces
+the "no composition rules" line above when #332 is built. Length matters more than
 symbols for security, so the 8-character minimum stays visible and passwords up
 to 128 characters stay allowed. The SRS sets no password rule (NFR-001 asks only
 for hashing), so the rule comes from #332. The 18+ rule is already in the Terms
@@ -431,7 +439,7 @@ Decided by @chidimmamogbo on 2026-11-02:
 
 | Date | Change | Agreed by |
 | --- | --- | --- |
-| 2026-11-02 | Proposed (#332): new passwords need 8-128 characters, an uppercase letter, a number and a symbol; `accepted_terms` required on `POST /auth/register` and `POST /auth/partner-register`, with the time and terms version stored. **Breaking** for clients that do not send `accepted_terms`, and for clients that send weak passwords | Not yet agreed: needs one reviewer who is not the author |
+| 2026-11-02 | Proposed (#332): new passwords need 8-128 characters, an uppercase letter, a number and a symbol; `accepted_terms` required on `POST /auth/register` and `POST /auth/partner-register`, with the time and terms version stored. **Breaking** for clients that do not send `accepted_terms`, and for clients that send weak passwords | @nnamdi-security (technical lead, G3, 2026-11-02) |
 | 2026-10-31 | Additive: `delivery_status` on `PhoneCodeSent`, and `GET /auth/phone-verification/status` and `GET /auth/phone-change/status` (Termii delivery reports). No existing field, status or error code changes | Proposed in the `fix/termii-otp-and-driver-area` branch; needs one reviewer's agreement in the PR |
 | 2026-10-26 | Change password (#8): `POST /auth/password`; a change ends the account's other sessions | @nnamdi-security (technical lead, #36), with @chidimmamogbo's decisions on #8 |
 | 2026-10-26 | Partner amendment (#47, [partners.md](partners.md)): partners sign up with `POST /auth/partner-register`, the one exception to "no self-registration for staff"; drivers may use the phone-verification endpoints (not phone change); admins still come only from the command-line tool | @nnamdi-security (technical lead, #36), with @chidimmamogbo's decisions on #47 |

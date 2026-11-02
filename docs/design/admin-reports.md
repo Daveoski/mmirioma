@@ -2,13 +2,12 @@
 
 Issue: [#333](https://github.com/mmiri-oma/mmirioma/issues/333) · Requirements:
 FR-052, FR-053, BR-09 · Prompt: none (small amendment to the existing Reports
-page, `/admin/reports`) · Contract (proposed, G3 not yet passed):
+page, `/admin/reports`) · Contract (agreed, G3, 2026-11-02):
 [admin-operations.md](../api/admin-operations.md#amendment-proposed-in-333-chosen-date-range-and-cancelled-orders)
-Designer: @Cloudcrackamara + Claude Code · Reviewed by: none yet · Status: draft
+Designer: @Cloudcrackamara + Claude Code · Reviewed by: @nnamdi-security (2026-11-02) · Status: approved
 
-**Draft for a reviewer who is not the author.** Do not build the frontend
-until this says `Status: approved` (G2) and the contract says `Status: agreed`
-(G3).
+**Approved (G2) on 2026-11-02 by @nnamdi-security, who is not the author.**
+The contract is agreed (G3), so the frontend may be built.
 
 ## What exists today
 
@@ -51,14 +50,19 @@ or address.
 2. Cancelled orders are left out of the two breakdowns by default, as the
    issue asks, and the page says how many were left out.
 
-## Open questions
+## Review decisions
 
-1. `include_cancelled` defaults to `false`, which changes what the existing
-   `by_zone` and `by_delivery_type` return for a request that sends only
-   `range`. The contract calls the change additive, but the numbers shift.
-   Reviewer: keep this default, or default to `true` so existing callers
-   see no change?
-2. Is 90 days a fair maximum for a custom range? No SRS figure exists.
+Decided by @nnamdi-security on 2026-11-02 (recommendation and approval):
+
+1. **`include_cancelled` defaults to `false`.** The issue asks to exclude
+   cancelled orders, the breakdowns count demand that actually went ahead, and the
+   page says how many were left out, so nothing is hidden. This changes the
+   numbers for a request that sends only `range`; the only client of
+   this endpoint in the repository is the Reports page, which this amendment
+   extends, so no other client is affected.
+2. **90 days is the maximum.** About a quarter is enough for the pilot's
+   reviews and bounds the size of the query. No SRS figure exists; it is a
+   recommendation and can be raised in a later contract change.
 
 ## Changes to the design system
 

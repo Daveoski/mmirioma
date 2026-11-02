@@ -360,9 +360,13 @@ today; **required**, 422 `validation_error` when missing: decision 7) and
 
 ### Amendment proposed in #333: chosen date range and cancelled orders
 
-**Status: proposed.** Not agreed until a reviewer who is not the author
-signs off (G3). Additive: a request that sends only `range` behaves exactly
-as before.
+**Status: agreed** (G3) on 2026-11-02 by @nnamdi-security (technical lead).
+Recommendations recorded with the agreement: keep `include_cancelled` default
+`false`, and keep 90 days as the maximum (see the reasons under the design's
+decisions in [admin-reports.md](../design/admin-reports.md)). Not built yet.
+Additive in shape: a request that sends only `range` has the same fields as
+before, but `by_zone` and `by_delivery_type` now leave out cancelled orders
+unless `include_cancelled=true`, so their numbers can shift.
 
 | Query | Rule |
 | --- | --- |
@@ -708,7 +712,7 @@ on the current backend, including the delivery type and zone breakdowns
 
 | Date | Change | Agreed by |
 | --- | --- | --- |
-| 2026-11-02 | Proposed (#333): `from`/`to` custom range and `include_cancelled` on `GET /admin/reports` ([amendment](#amendment-proposed-in-333-chosen-date-range-and-cancelled-orders)) | Not yet |
+| 2026-11-02 | Proposed (#333): `from`/`to` custom range and `include_cancelled` on `GET /admin/reports` ([amendment](#amendment-proposed-in-333-chosen-date-range-and-cancelled-orders)) | @nnamdi-security (technical lead, G3, 2026-11-02) |
 | 2026-11-01 | Added `AuditLogRead.target_label` (additive, resolved when read, #296) | @nnamdi-security (technical lead, G3) |
 | 2026-10-27 | "Data needed": the note is removed by replacing it with the message's text, so the response keeps its shape (#117) | @nnamdi-security (privacy contact) |
 | 2026-10-27 | Clarified in the build (#102): decisions 7-10 (`range` required, `by_zone[].delivered`, per-driver and per-source rules, indexes); `assignment_expired` not created while offers never expire | @nnamdi-security (technical lead) |
