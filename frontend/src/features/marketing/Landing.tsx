@@ -1,8 +1,8 @@
-import type { ReactNode } from 'react'
+import { useState, type CSSProperties, type PointerEvent, type ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import { cx } from '../../lib/cx'
 import { whatsappLink } from '../../lib/whatsapp'
-import { LANDING_FAQS, OBJECTIONS, ORDER_CTA, SERVICE_AREAS } from './content'
+import { LANDING_FAQS, OBJECTIONS, ORDER_CTA, SERVICE_AREAS, tileFill } from './content'
 import {
   ArrowRightIcon,
   BigPinIcon,
@@ -213,17 +213,46 @@ function SubCard({ title, wide = false, children }: { title: string; wide?: bool
   )
 }
 
+/**
+ * A size tile that fills with water (#330). The fill is driven by classes and
+ * a data attribute only, with no timers: the water is a full-height layer that
+ * rises with `transform` (marketing.css, `.mk-tile`), on hover, on keyboard
+ * focus, and after a tap on a touch screen. A tap toggles the fill and moving
+ * focus away ends it; a mouse needs no JS because hover ends when it leaves.
+ * The tile shows a size only: no price and no claim (FR-022).
+ */
+function SizeTile({ n, unit, tone, fill }: { n: string; unit: string; tone: 'keke' | 'tanker'; fill: number }) {
+  const [tapped, setTapped] = useState(false)
+  // A mouse click already has hover; touch and pen have none, so their tap toggles the fill.
+  const onPointerUp = (e: PointerEvent) => {
+    if (e.pointerType !== 'mouse') setTapped((on) => !on)
+  }
+  return (
+    <div
+      role="group"
+      tabIndex={0}
+      aria-label={`${n} ${unit}`}
+      data-filled={tapped || undefined}
+      onPointerUp={onPointerUp}
+      onBlur={() => setTapped(false)}
+      style={{ '--mk-fill': fill } as CSSProperties}
+      className={cx('mk-tile flex min-h-[76px] flex-col items-center justify-center gap-0.5 rounded-xl', tone === 'keke' ? 'bg-mk-panel' : 'bg-mk-tanker-tile')}
+    >
+      <span aria-hidden="true" className="mk-tile-clip">
+        <span className="mk-tile-water" />
+      </span>
+      <span className={cx('font-display font-bold text-ink', n === 'Custom' ? 'text-[15px]' : tone === 'keke' ? 'text-[19px]' : 'text-[18px]')}>{n}</span>
+      <span className="mk-tile-unit text-[12px]">{unit}</span>
+    </div>
+  )
+}
+
 function Tiles({ tiles, tone }: { tiles: [string, string][]; tone: 'keke' | 'tanker' }) {
+  const group = tiles.map(([n]) => n)
   return (
     <div className="grid flex-auto grid-cols-4 gap-2">
       {tiles.map(([n, unit]) => (
-        <div
-          key={n}
-          className={cx('flex min-h-[76px] flex-col items-center justify-center gap-0.5 rounded-xl', tone === 'keke' ? 'bg-mk-panel' : 'bg-mk-tanker-tile')}
-        >
-          <span className={cx('font-display font-bold text-ink', n === 'Custom' ? 'text-[15px]' : tone === 'keke' ? 'text-[19px]' : 'text-[18px]')}>{n}</span>
-          <span className="text-[12px] text-mute">{unit}</span>
-        </div>
+        <SizeTile key={n} n={n} unit={unit} tone={tone} fill={tileFill(n, group)} />
       ))}
     </div>
   )

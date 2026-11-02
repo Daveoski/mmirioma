@@ -145,6 +145,26 @@ newsletter form (docs/api/public-site.md, proposed), hover states on every
 button, centred button labels, filter pills changed to rounded rectangles
 (10 px) across the apps.
 
+## Size tiles fill with water (2026-11-02, #330)
+
+Requested by the owner in #330, after the design was approved; recorded here
+because it adds an interaction to an approved screen. The layout, copy and sizes
+in "Pick the size that fits" do not change, and there are no prices or claims
+(FR-022).
+
+Each size tile (Keke 12, 24, 30, 60 gallons; tanker 500, 750, 1,000, Custom)
+fills with water when hovered, focused with the keyboard, or tapped. The water
+rises from the bottom of the tile to a height in proportion to the size within
+its group (size divided by the largest size, so 12 is the lowest and 60 the
+highest; Custom fills fully). It ends when the pointer leaves or focus moves
+away; a second tap on a touch screen also ends it. Under reduced motion the
+water appears at once, without animation. The size stays in ink and the unit
+text turns ink over the water, for contrast. The fill is a picture of the size,
+not a quantity claim or a recommendation.
+
+Not yet approved by a reviewer: this note records what was built; a reviewer who
+is not the author checks it against the owner's request.
+
 ## Open items
 
 - **Legal review.** Terms: no cash refunds (points instead), liability and the
